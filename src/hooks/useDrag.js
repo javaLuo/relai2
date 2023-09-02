@@ -53,7 +53,7 @@ export default function useDrag(dom){
             y: 0,
             round: 1,
             easing: 'linear',
-            duration: 300,
+            duration: 200,
             update: function() {
             //   logEl.innerHTML = JSON.stringify(battery);
               d.value.style.translate = `${battery.x}px ${battery.y}px`;

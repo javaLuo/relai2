@@ -14,9 +14,10 @@
         />
 
         <div class="prev">
-            <img  src="@/assets/imgs/bao/boring.gif" />
+            <img src="@/assets/imgs/bao/sleep.gif" />
             <img src="@/assets/imgs/bao/greet.gif" />
             <img src="@/assets/imgs/bao/sad.gif" />
+            <img src="@/assets/imgs/bao/happy.gif" />
         </div>
     </div>
 </template>
