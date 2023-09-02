@@ -1,7 +1,7 @@
 /** 对axios做一些配置 **/
 
-import { baseUrl } from '../config'
-import axios from 'axios'
+import { baseUrl } from "../config";
+import axios from "axios";
 
 /**
  * 根据不同环境设置不同的请求地址
@@ -17,12 +17,12 @@ import axios from 'axios'
 // }
 
 // 默认基础请求地址
-axios.defaults.baseURL = baseUrl
+axios.defaults.baseURL = baseUrl;
 // 请求是否带上cookie
-axios.defaults.withCredentials = false
+axios.defaults.withCredentials = false;
 // 对返回的结果做处理
-axios.interceptors.response.use((response) => {
-  return response.data
-})
+axios.interceptors.response.use(response => {
+  return response.data;
+});
 
-export default axios
+export default axios;

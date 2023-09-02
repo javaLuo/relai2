@@ -1,6 +1,5 @@
 <template>
   <div class="root">
-
     <!-- 左上角状态 -->
     <div class="type-box">
       <div class="title">心情值</div>
@@ -19,7 +18,7 @@
         <img src="@/assets/imgs/icon-touwei.png" />
         <div>投喂</div>
       </div>
-      
+
       <div class="item">
         <img src="@/assets/imgs/icon-play.png" />
         <div>玩耍</div>
@@ -27,7 +26,7 @@
     </div>
 
     <Bao />
-   
+
     <!-- 底部区域 -->
     <Talks />
     <TalkInput />
@@ -35,15 +34,12 @@
 </template>
 
 <script setup>
-  import {ref} from 'vue';
-  import {useRouter} from 'vue-router';
-  import Bao from "@/components/bao.vue";
-  import Talks from "@/components/talks.vue";
-  import TalkInput from "@/components/talkInput.vue";
+// import { useRouter } from "vue-router";
+import Bao from "@/components/bao.vue";
+import Talks from "@/components/talks.vue";
+import TalkInput from "@/components/talkInput.vue";
 
-  const router = useRouter();
-
-
+// const router = useRouter();
 </script>
 
 <style lang="less" scoped>
@@ -52,75 +48,77 @@
   width: 100%;
   height: 100vh;
   box-sizing: border-box;
-  padding: .2rem;
+  padding: 0.2rem;
   background-color: #f7f7f7;
-  background-image: linear-gradient(to bottom, #FFF1D0 50%, #DD9E7D 50%);
+  background-image: linear-gradient(to bottom, #fff1d0 50%, #dd9e7d 50%);
   overflow: hidden;
 
-  .type-box{
+  .type-box {
     position: absolute;
     top: 1rem;
-    left: .2rem;
+    left: 0.2rem;
     z-index: 99;
     display: flex;
     align-items: center;
-    .title{
-      font-size: .23rem;
+    .title {
+      font-size: 0.23rem;
       font-family: Source Han Sans CN, sans-serif;
       font-weight: 400;
-      color: #FFFFFF;
-      text-shadow: #BD673B 1px 0 0, #BD673B 0 1px 0, #BD673B -1px 0 0, #BD673B 0 -1px 0;
+      color: #ffffff;
+      text-shadow: #bd673b 1px 0 0, #bd673b 0 1px 0, #bd673b -1px 0 0,
+        #bd673b 0 -1px 0;
       // -webkit-text-stroke: 1px #BD673B;
       // text-stroke: 1px #BD673B;
-      margin-right: .1rem;
+      margin-right: 0.1rem;
     }
 
-    .heart-box{
+    .heart-box {
       display: flex;
       align-items: center;
-      .heart{
+      .heart {
         position: relative;
         z-index: 2;
-        width: .44rem;
-        height: .44rem;
-        background: #FFF3E5;
+        width: 0.44rem;
+        height: 0.44rem;
+        background: #fff3e5;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        border: solid 1px #DD9E7D;
-        img{
-          width: .32rem;
+        border: solid 1px #dd9e7d;
+        img {
+          width: 0.32rem;
         }
       }
-      .line-box{
+      .line-box {
         position: relative;
-        height: .33rem;
+        height: 0.33rem;
         width: 2.5rem;
-        background: #FFF3E5;
-        border-radius: .3rem;
-        border: solid 1px #FFBC3B;
-        margin-left: -.2rem;
+        background: #fff3e5;
+        border-radius: 0.3rem;
+        border: solid 1px #ffbc3b;
+        margin-left: -0.2rem;
         overflow: hidden;
-       
+
         // -webkit-text-stroke: 1px #47332F;
         // text-stroke: 1px #47332F;
         color: #fff;
-        .words{
+        .words {
           position: absolute;
           top: 50%;
-          transform: translateY(-50%) scale(.9, .9);
-          left: .2rem;
-          font-size: .2rem;
+          transform: translateY(-50%) scale(0.9, 0.9);
+          left: 0.2rem;
+          font-size: 0.2rem;
           font-family: PingFang SC, sans-serif;
           font-weight: 400;
-          color: #FFFFFF;
-          text-shadow: #47332F 1px 0 0, #47332F 0 1px 0, #47332F -1px 0 0, #47332F 0 -1px 0;
+          color: #ffffff;
+          text-shadow: #47332f 1px 0 0, #47332f 0 1px 0, #47332f -1px 0 0,
+            #47332f 0 -1px 0;
         }
 
-        .line{
-          background-color: #FFBC3B;
-          padding-left: .1rem;
+        .line {
+          background-color: #ffbc3b;
+          padding-left: 0.1rem;
           width: 10%;
           height: 100%;
           box-sizing: border-box;
@@ -129,40 +127,39 @@
     }
   }
 
-  .control{
+  .control {
     position: absolute;
     top: 1rem;
-    right: .2rem;
+    right: 0.2rem;
     z-index: 99;
     display: flex;
     flex-direction: column;
-    gap: .18rem;
-    .item{
+    gap: 0.18rem;
+    .item {
       position: relative;
       width: 1.12rem;
       height: 1.12rem;
-      img{
+      img {
         width: 100%;
         height: 100%;
       }
-      &>div{
-        width: .96rem;
-        height: .38rem;
-        background: #FFFFFF;
-        border-radius: .38rem;
-        font-size: .23rem;
+      & > div {
+        width: 0.96rem;
+        height: 0.38rem;
+        background: #ffffff;
+        border-radius: 0.38rem;
+        font-size: 0.23rem;
         font-family: Source Han Sans CN, sans-serif;
         font-weight: 400;
-        color: #7B6A67;
+        color: #7b6a67;
         text-align: center;
-        line-height: .38rem;
+        line-height: 0.38rem;
         position: absolute;
-        bottom: -.1rem;
+        bottom: -0.1rem;
         left: 50%;
         transform: translateX(-50%);
       }
     }
   }
-
 }
 </style>
