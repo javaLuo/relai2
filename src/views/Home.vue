@@ -50,11 +50,12 @@
 .root {
   position: relative;
   width: 100%;
+  height: 100vh;
   box-sizing: border-box;
   padding: .2rem;
   background-color: #f7f7f7;
-  min-height: 100vh;
   background-image: linear-gradient(to bottom, #FFF1D0 50%, #DD9E7D 50%);
+  overflow: hidden;
 
   .type-box{
     position: absolute;
