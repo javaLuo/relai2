@@ -1,0 +1,44 @@
+{
+  "id": "4135414",
+  "name": "relai",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2699819",
+      "name": "loading",
+      "font_class": "loading",
+      "unicode": "e721",
+      "unicode_decimal": 59169
+    },
+    {
+      "icon_id": "6775644",
+      "name": "爱心",
+      "font_class": "aixin",
+      "unicode": "eca1",
+      "unicode_decimal": 60577
+    },
+    {
+      "icon_id": "2127143",
+      "name": "微笑",
+      "font_class": "smile",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "2261660",
+      "name": "消息",
+      "font_class": "message",
+      "unicode": "e81d",
+      "unicode_decimal": 59421
+    },
+    {
+      "icon_id": "8361763",
+      "name": "发送",
+      "font_class": "fasong",
+      "unicode": "e6bd",
+      "unicode_decimal": 59069
+    }
+  ]
+}
