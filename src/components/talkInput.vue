@@ -1,8 +1,8 @@
 <template>
-  <label :class="['btn-label', {show}]" for="text-area" @click.stop>
+  <!-- <label :class="['btn-label', {show}]" for="text-area" @click.stop>
     <img class="btn" src="@/assets/imgs/icon-key.png" />
-  </label>
-  <div :class="['root-talkinput', { show: isFocus && show }]" @click="onTxtBlur">
+  </label> -->
+  <!-- <div :class="['root-talkinput', { show: true }]" @click="onTxtBlur">
     <div :class="['input-box']" @click.stop>
       <div class="txt-box">
         <pre>{{ txt }}</pre>
@@ -17,7 +17,22 @@
       </div>
       <div class="submit" @click.stop="onSend" v-loading="isLoading">发送</div>
     </div>
-  </div>
+  </div> -->
+  <div :class="['input-box', {show}]" @click.stop>
+      <div class="txt-box">
+        <pre>{{ txt }}</pre>
+        <textarea
+          id="text-area"
+          ref="txtArea"
+          :value="txt"
+          :maxlength="140"
+          @input="onInput"
+          @focus="onTxtFocus"
+        />
+      </div>
+      <div class="submit" @click.stop="onSend" v-loading="isLoading">发送</div>
+    </div>
+
 </template>
 
 <script setup>
@@ -104,7 +119,10 @@ async function onSend() {
     pointer-events: auto;
   }
 
-  .input-box {
+
+}
+
+.input-box {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -118,6 +136,12 @@ async function onSend() {
     display: flex;
     align-items: flex-end;
     gap: 0.2rem;
+    opacity: 0;
+    pointer-events: none;
+    &.show{
+      opacity: 1;
+      pointer-events: auto;
+    }
 
     .txt-box {
       position: relative;
@@ -189,5 +213,4 @@ async function onSend() {
       line-height: 0.6rem;
     }
   }
-}
 </style>
