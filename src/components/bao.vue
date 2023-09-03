@@ -233,6 +233,7 @@ function onPlayAction(type) {
 }
 
 function onBallSend() {
+  if(isLoading.value) return;
   isLoading.value = true;
   const ref = tools.getRandomInt(0, 1);
 
@@ -251,6 +252,7 @@ function onBallSend() {
     x: 0,
     y: 0,
     scale: 1,
+    rotate: 0,
   };
 
   let x = 0;
@@ -262,18 +264,18 @@ function onBallSend() {
     x = 1.8;
   }
 
-  console.log(ref, baoActionType);
   const isHappy = baoActionType === ref;
   setEmoji('ball2');
   anime({
     targets: ballObj,
     x,
     y: targetBall.y,
+    rotate: 360,
     scale: 0.3,
     easing: "linear",
     duration: 800,
     update: function () {
-      ballRef.value.style.transform = `translate(-50%, 0) scale(${ballObj.scale}, ${ballObj.scale})`;
+      ballRef.value.style.transform = `translate(-50%, 0) scale(${ballObj.scale}, ${ballObj.scale}) rotate(${ballObj.rotate}deg)`;
       ballRef.value.style.translate = `${ballObj.x}rem calc(${ballObj.y}px - 1.4rem)`;
     },
     complete: function (anim) {
