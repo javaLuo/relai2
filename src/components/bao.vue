@@ -390,6 +390,7 @@ function eatDone(){
 }
 
 function onFoodClose(){
+  clearTimeout(timerEat.value);
   setEmoji("sleep");
   randomEmoji('wait');
   emits("onFoodClose");
