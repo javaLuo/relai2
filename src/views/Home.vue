@@ -68,7 +68,7 @@ function onFoodClose(){
   box-sizing: border-box;
   padding: 0.2rem;
   background-color: #f7f7f7;
-  background-image: linear-gradient(to bottom, #fff1d0 50%, #dd9e7d 50%);
+  background-image: linear-gradient(to bottom, #fff1d0 0%, #fff9e9 50%, #d8b8a3 50%, #e2cbbb 100%);
   overflow: hidden;
 
   .control {

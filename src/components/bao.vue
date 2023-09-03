@@ -15,7 +15,11 @@
       今日打扫 {{ cleanInfo.todayNum }} / {{ cleanInfo.maxNum }}
     </div>
 
-    <img ref="baoImgRef" class="bao" :src="emoji.src" />
+    <div :class="['heart-info', {show: isHeartShow}]">
+      心情值+1
+    </div>
+
+    <img ref="baoImgRef" class="bao" :src="emoji.src"/>
 
     <!-- 预加载图片 -->
     <div class="prev" v-show="prevLoad">
@@ -27,6 +31,7 @@
       <img src="@/assets/imgs/bao/ball1.gif" />
       <img src="@/assets/imgs/bao/ball2.gif" />
       <img src="@/assets/imgs/bao/eat.gif" />
+      <img src="@/assets/imgs/bao/wait.gif" />
       <img src="@/assets/imgs/bao/food.gif" @load="onImgLoaded"/>
     </div>
   </div>
@@ -130,7 +135,7 @@ const { talk, setTalk } = useBaoTalk();
 const { foodClick, setFood } = useFood();
 
 onMounted(() => {
-  randomEmoji();
+  randomEmoji('sleep');
 });
 
 const talkList = computed(() => {
@@ -186,17 +191,20 @@ watch(
   }
 );
 
+// 心情标题
+const isHeartShow = ref(false);
+
 const prevLoad = ref(true);
 function onImgLoaded(){
   prevLoad.value = false;
 }
 
 // 每3秒取随机表情
-function randomEmoji() {
+function randomEmoji(def) {
   clearTimeout(defaultTimer.value);
   defaultTimer.value = setTimeout(() => {
-    setEmoji("sleep");
-    randomEmoji();
+    setEmoji(def || "sleep");
+    randomEmoji(def);
   }, 3000);
 }
 
@@ -224,7 +232,7 @@ function onTouchEnd() {
   } else {
     setEmoji("greet");
   }
-  randomEmoji();
+  randomEmoji('wait');
 }
 
 // ============== 玩球  ==============
@@ -233,7 +241,7 @@ const isLoading = ref(false);
 
 function onPlayClose() {
   setEmoji("sleep");
-  randomEmoji();
+  randomEmoji('wait');
   emits("onPlayClose")
   baoImgRef.value.style.transform = '';
 }
@@ -308,6 +316,8 @@ function onBallSend() {
     complete: function (anim) {
       if (isHappy) {
         setEmoji("happy");
+        store.dispatch("app/addLoves", 1);
+        isHeartShow.value = true;
       } else {
         setEmoji("sad");
       }
@@ -315,6 +325,7 @@ function onBallSend() {
         ballRef.value.style.translate = "0rem 0px";
         ballRef.value.style.transform = "translate(-50%, 0) scale(1, 1)";
         isLoading.value = false;
+        isHeartShow.value = false;
         setEmoji("ball1");
       }, 1800);
     },
@@ -329,7 +340,7 @@ function onFood1() {
   });
   setEmoji("eat");
   eatDone();
-  store.dispatch("app/addLoves", 10);
+  store.dispatch("app/addLoves", 1);
 }
 function onFood2() {
   setFood({
@@ -338,7 +349,7 @@ function onFood2() {
   });
   setEmoji("eat");
   eatDone();
-  store.dispatch("app/addLoves", 10);
+  store.dispatch("app/addLoves", 1);
 }
 function onFood3() {
   setFood({
@@ -347,7 +358,7 @@ function onFood3() {
   });
   setEmoji("eat");
   eatDone();
-  store.dispatch("app/addLoves", 10);
+  store.dispatch("app/addLoves", 1);
 }
 function onFood4() {
   setFood({
@@ -356,7 +367,7 @@ function onFood4() {
   });
   setEmoji("eat");
   eatDone();
-  store.dispatch("app/addLoves", 10);
+  store.dispatch("app/addLoves", 1);
 }
 function onFood5() {
   setFood({
@@ -365,26 +376,27 @@ function onFood5() {
   });
   setEmoji("eat");
   eatDone();
-  store.dispatch("app/addLoves", 10);
+  store.dispatch("app/addLoves", 1);
 }
 
 const timerEat = ref(0);
 function eatDone(){
+  isHeartShow.value = true;
   clearTimeout(timerEat.value);
   timerEat.value = setTimeout(()=>{
+    isHeartShow.value = false;
     setEmoji("food");
   }, 2000);
 }
 
 function onFoodClose(){
   setEmoji("sleep");
-  randomEmoji();
+  randomEmoji('wait');
   emits("onFoodClose");
 }
 
  // 打扫清洁
  const { cleanInfo, objsArr, clearOne, isCleanShow} = useClean();
-  
   function onClean(index){
     clearOne(index);
   }
@@ -557,12 +569,39 @@ function onFoodClose(){
   }
 }
 
+.heart-info{
+  position: absolute;
+  width: 1.94rem;
+  height: .67rem;
+  background: rgba(0,0,0,.2);
+  border-radius: .67rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(.2rem);
+  text-align: center;
+  line-height: .67rem;
+  font-size: .29rem;
+  font-family: Source Han Sans CN, sans-serif;
+  font-weight: 400;
+  color: #FFFFFF;
+  bottom: 7rem;
+  opacity: 0;
+  transition: opacity 300ms, transform 300ms;
+  pointer-events: none;
+  
+
+  &.show{
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
   .bao {
     position: relative;
     width: 4.85rem;
     height: auto;
     transition: all 300ms;
     z-index: 100;
+    pointer-events: none;
   }
 }
 

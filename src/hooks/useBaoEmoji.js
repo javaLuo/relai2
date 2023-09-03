@@ -8,6 +8,7 @@ import ImgFood from "@/assets/imgs/bao/food.gif";
 import ImgEat from "@/assets/imgs/bao/eat.gif";
 import ImgBall1 from "@/assets/imgs/bao/ball1.gif";
 import ImgBall2 from "@/assets/imgs/bao/ball2.gif";
+import ImgWait from "@/assets/imgs/bao/wait.gif";
 
 export default function useBaoEmoji() {
   const emojis = {
@@ -19,7 +20,8 @@ export default function useBaoEmoji() {
     food: ImgFood,
     eat: ImgEat,
     ball1: ImgBall1,
-    ball2: ImgBall2
+    ball2: ImgBall2,
+    wait: ImgWait,
   };
 
   const type = ref("sleep");

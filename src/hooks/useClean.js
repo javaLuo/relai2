@@ -53,7 +53,7 @@ export default function useClean(){
                 src: imgs[index],
                 x: tools.getRandom(0.5, 6), // rem
                 y: tools.getRandom(clientHeight/2 + 50, clientHeight - 50),
-                w: index === 0 ? 1.5 : (index === 1) ? 2 : 1.2,
+                w: index === 0 ? 1 : (index === 1) ? 1.5 : 0.8,
                 type: 'rabish',
             })
         }
