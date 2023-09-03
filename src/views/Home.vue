@@ -76,6 +76,7 @@ function onFoodClose(){
 
   background-image: url('@/assets/imgs/back.png');
   background-size: cover;
+  background-position: center;
   overflow: hidden;
   &.noBack{
     background-image: linear-gradient(to bottom, #fff1d0 0%, #fff9e9 50%, #d8b8a3 50%, #e2cbbb 100%);

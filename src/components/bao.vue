@@ -36,7 +36,7 @@
     </div>
   </div>
 
-  <img :class="['hand',{show: isHandShow, play: status === 'play', food: status === 'food'}]" src="@/assets/imgs/hand.gif" />
+  <img :class="['hand',{show: isHandShow && status === 'play', play: status === 'play', food: status === 'food'}]" src="@/assets/imgs/hand.gif" />
 
   <!-- 踢球配套设施 -->
   <img
@@ -63,6 +63,7 @@
   />
   
   <div :class="['boardImg', { show: foodClick.food }]">
+    <img :class="['hand',{show: isHandShow && status === 'food', play: status === 'play', food: status === 'food'}]" src="@/assets/imgs/hand.gif" />
       <img class="img0" src="@/assets/imgs/food/0.png" />
       <div>
         <img class="plate1" src="@/assets/imgs/food/plate.png"/>
@@ -245,7 +246,6 @@ const ballRef = ref(null);
 const isLoading = ref(false);
 
 function onPlayClose() {
-  setEmoji("sleep");
   randomEmoji('wait');
   emits("onPlayClose")
   baoImgRef.value.style.transform = '';
@@ -403,7 +403,6 @@ function eatDone(){
 
 function onFoodClose(){
   clearTimeout(timerEat.value);
-  setEmoji("sleep");
   randomEmoji('wait');
   emits("onFoodClose");
   isHandShow.value = false;
@@ -720,6 +719,10 @@ function onFoodClose(){
   height: 2rem;
   z-index: 100;
   pointer-events: none;
+  .hand{
+    right: .2rem;
+    top: 200%;
+  }
   &.show {
     opacity: 1;
     pointer-events: auto;
@@ -829,7 +832,7 @@ function onFoodClose(){
 .hand{
   position: absolute;
   z-index: 999;
-  width: 1.05rem;
+  width: 1.5rem;
   opacity: 0;
   pointer-events: none;
   &.show{
