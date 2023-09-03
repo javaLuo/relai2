@@ -51,7 +51,6 @@ const isFocus = ref(false);
 const isLoading = ref(false);
 
 function onInput(e) {
-  console.log(e);
   txt.value = e.target.value;
 }
 

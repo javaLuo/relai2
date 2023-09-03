@@ -1,8 +1,9 @@
 <template>
-  <div :class="['root-talks-box', {show}]">
+  <div :class="['root-talks-box', { show }]">
     <ul class="root-talks" ref="scrollBox">
       <li v-for="(item, index) in talkList" :key="index">
-        {{ Object.values(item)[0] }}
+        {{ Object.keys(item)[0] === "user" ? "我：" : "包晴天："
+        }}{{ Object.values(item)[0] }}
       </li>
     </ul>
   </div>
@@ -12,7 +13,7 @@
 import { computed, watch, ref } from "vue";
 import { useStore } from "vuex";
 
-const props = defineProps({
+defineProps({
   show: Boolean,
 });
 const store = useStore();
@@ -20,10 +21,10 @@ const scrollBox = ref(null);
 
 const talkList = computed(() => {
   let t = store.state.app.talks;
-  if(t.length) {
-    t = t.filter(talk => Object.keys(talk)[0] === 'user')
-    console.log('t:', t)
-  }
+  // if (t.length) {
+  //   t = t.filter((talk) => Object.keys(talk)[0] === "user");
+  //   console.log("t:", t);
+  // }
   //   t.reverse();
   return t;
 });
@@ -31,11 +32,13 @@ const talkList = computed(() => {
 watch(
   () => talkList.value,
   () => {
-    const currentScroll = scrollBox.value.scrollTop; // 已经被卷掉的高度
-    const clientHeight = scrollBox.value.offsetHeight; // 容器高度
-    const scrollHeight = scrollBox.value.scrollHeight; // 内容总高度
-    console.log("scroll:", currentScroll, clientHeight, scrollHeight);
-    scrollBox.value.scrollTo(0, scrollHeight);
+    // const currentScroll = scrollBox.value.scrollTop; // 已经被卷掉的高度
+    // const clientHeight = scrollBox.value.offsetHeight; // 容器高度
+    setTimeout(() => {
+      const scrollHeight = scrollBox.value.scrollHeight; // 内容总高度
+      // console.log("scroll:", currentScroll, clientHeight, scrollHeight);
+      scrollBox.value.scrollTo(0, scrollHeight);
+    }, 32);
   }
 );
 </script>
@@ -50,7 +53,7 @@ watch(
   width: 4rem;
   opacity: 0;
   pointer-events: none;
-  &.show{
+  &.show {
     opacity: 1;
     pointer-events: auto;
   }
@@ -74,13 +77,14 @@ watch(
   & > li {
     box-sizing: border-box;
     padding: 0.2rem;
-    max-width: 4rem;
+    max-width: 3.4rem;
     background: rgba(0, 0, 0, 0.1);
     border-radius: 0.1rem;
-    font-size: 0.27rem;
+    font-size: 0.25rem;
     font-family: Source Han Sans CN, sans-serif;
     font-weight: 400;
     color: #ffffff;
+    line-break: anywhere;
   }
 }
 </style>
