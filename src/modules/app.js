@@ -37,18 +37,38 @@ const app = {
     // TODO 发送留言
     async sendMsg(context, params) {
       console.log("sendMsg", context.state.talks);
-
-      const talks = [...context.state.talks];
-      talks.push({ name: "我", txt: params.txt });
-      if (talks.length > 10) {
-        talks.shift();
+      const historyChat = [...context.state.talks];
+      const question = params.txt;
+      try {
+        if(historyChat.length > 10) {
+          historyChat.shift();
+        }
+        const res = await axios.post("/rest-api/relped/chat", {historyChat: JSON.stringify(historyChat), question});
+        historyChat.push({
+          user: question
+        })
+        historyChat.push({
+          system: res.detail
+        })
+        context.commit("setState", { talks: historyChat });
+        return true;
+      } catch {
+        return { code: 500 };
       }
-      context.commit("setState", { talks });
-      // context.dispatch("getMsg");
-      return true;
+
+
+
+      // const talks = [...context.state.talks];
+      // talks.push({ name: "user", txt: params.txt });
+      // if (talks.length > 10) {
+      //   talks.shift();
+      // }
+      // context.commit("setState", { talks });
+      // // context.dispatch("getMsg");
+      // return true;
 
       // try {
-      //   const res = await axios.post("/api/sendMsg", params);
+      //   const res = await axios.post("/rest-api/relped/chat", params);
       //   return res;
       // } catch {
       //   return { code: 500 };

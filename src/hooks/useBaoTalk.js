@@ -34,9 +34,13 @@ export default function useBaoTalk() {
     }, 3000);
   }
 
-  function setTalk(type, isNoKeep) {
+  function setTalk(type, isNoKeep, msg) {
     clearTimeout(timer.value);
-    talk.value = insideTalks[type];
+    if(msg) {
+      talk.value = msg
+    } else {
+      talk.value = insideTalks[type];
+    }
     if(!isNoKeep){
       onDefaultTalk();
     } else {
