@@ -5,7 +5,7 @@
 
     <!-- 右边按钮 -->
     <div :class="['control', {show: baoStatus === 'normal'}]">
-      <div class="item">
+      <div class="item" @click="onFood">
         <img src="@/assets/imgs/icon-touwei.png" />
         <div>投喂</div>
       </div>
@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <Bao :status="baoStatus" @onPlayClose="onPlayClose"/>
+    <Bao :status="baoStatus" :food="foodStatus" @onPlayClose="onPlayClose"/>
 
     <!-- 底部区域 -->
     <Talks :show="baoStatus === 'normal'" />
@@ -34,6 +34,7 @@ import Types from "@/components/types.vue";
 
 const baoStatus = ref('normal');
 const typesBaoRes = ref(null);
+const foodStatus = ref(null);
 
 // 进入玩耍状态
 function onPlay(){
@@ -44,6 +45,12 @@ function onPlay(){
 function onPlayClose(){
   baoStatus.value = 'normal';
 }
+
+//投喂
+function onFood() {
+  foodStatus.value = !foodStatus.value;
+}
+
 
 </script>
 
