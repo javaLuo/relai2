@@ -23,12 +23,12 @@
 
   <!-- 踢球配套设施 -->
   <img :class="['close', {show: !isLoading && status === 'play'}]" src="@/assets/imgs/icon-close.png" @click="onPlayClose"/>
-
-  <!-- 球门 -->
   <img :class="['door', {show: status === 'play'}]" src="@/assets/imgs/play/door.png" />
-
-  <!-- 球 -->
   <img ref="ballRef" :class="['ball', {show: status === 'play' }]" src="@/assets/imgs/play/ball.png" @click="onBallSend" />
+
+  <!-- 清扫逻辑 -->
+  <img class="rabish" v-for="(item,index) in objsArr" :src="item.src" :key="index" :style="{left: `${item.x}rem`, top: `${item.y}px`, width: `${item.w}rem`}" @click="onClean(index)"/>
+
 
 </template>
 
@@ -39,6 +39,7 @@ import { ref, onMounted, watch } from "vue";
 import useBaoEmoji from "@/hooks/useBaoEmoji";
 import useDrag from "@/hooks/useDrag";
 import useBaoTalk from "@/hooks/useBaoTalk";
+import useClean from '@/hooks/useClean';
 
 const emits = defineEmits(['onPlayClose']);
 const props = defineProps({
@@ -174,7 +175,6 @@ function onBallSend(){
         x = 1.8;
     }
 
-    console.log(ref, baoActionType);
     const isHappy = baoActionType === ref;
     anime({
         targets: ballObj,
@@ -204,6 +204,10 @@ function onBallSend(){
     });
 }
 
+
+    // 打扫清洁
+    const { cleanInfo, objsArr} = useClean();
+    console.log('objsArr', objsArr);
 </script>
 
 <style lang="less" setup>
@@ -332,5 +336,10 @@ function onBallSend(){
     &.show{
       opacity: 1;
     }
+}
+
+.rabish{
+  position: absolute;
+  height: auto;
 }
 </style>
