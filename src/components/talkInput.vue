@@ -1,8 +1,8 @@
 <template>
-  <label class="btn-label" for="text-area" @click.stop>
+  <label :class="['btn-label', {show}]" for="text-area" @click.stop>
     <img class="btn" src="@/assets/imgs/icon-key.png" />
   </label>
-  <div :class="['root-talkinput', { show: isFocus }]" @click="onTxtBlur">
+  <div :class="['root-talkinput', { show: isFocus && show }]" @click="onTxtBlur">
     <div :class="['input-box']" @click.stop>
       <div class="txt-box">
         <pre>{{ txt }}</pre>
@@ -24,6 +24,10 @@
 import { ref } from "vue";
 import { useStore } from "vuex";
 import { ElMessage } from "element-plus";
+
+const props = defineProps({
+  show: Boolean,
+});
 
 const store = useStore();
 
@@ -73,6 +77,12 @@ async function onSend() {
   width: 0.7rem;
   height: 0.7rem;
   z-index: 99;
+  opacity: 0;
+  pointer-events: none;
+  &.show{
+    opacity: 1;
+    pointer-events: auto;
+  }
   .btn {
     width: 100%;
     height: 100%;

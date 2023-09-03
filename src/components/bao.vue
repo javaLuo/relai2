@@ -1,6 +1,6 @@
 <template>
   <div
-    class="root-bao"
+    :class="['root-bao', status]"
     ref="bao"
     @touchstart="onTouchStart"
     @touchmove="onTouchMove"
@@ -10,7 +10,7 @@
     <div :class="['talk', { show: talk }]">
       {{ talk }}
     </div>
-    <img class="bao" :src="emoji.src" />
+    <img ref="baoImgRef" class="bao" :src="emoji.src" />
 
     <div class="prev">
       <img src="@/assets/imgs/bao/sleep.gif" />
@@ -20,14 +20,32 @@
       <img src="@/assets/imgs/bao/nie.gif" />
     </div>
   </div>
+
+  <!-- 踢球配套设施 -->
+  <img :class="['close', {show: !isLoading && status === 'play'}]" src="@/assets/imgs/icon-close.png" @click="onPlayClose"/>
+
+  <!-- 球门 -->
+  <img v-show="status === 'play'" :class="['door']" src="@/assets/imgs/play/door.png" />
+
+  <!-- 球 -->
+  <img v-show="status === 'play'" ref="ballRef" class="ball" src="@/assets/imgs/play/ball.png" @click="onBallSend" />
+
 </template>
 
 <script setup>
+import anime from 'animejs';
+import tools from '@/utils/tools.js';
 import { ref, onMounted, watch } from "vue";
 import useBaoEmoji from "@/hooks/useBaoEmoji";
 import useDrag from "@/hooks/useDrag";
 import useBaoTalk from "@/hooks/useBaoTalk";
 
+const emits = defineEmits(['onPlayClose']);
+const props = defineProps({
+  status: String,
+});
+
+const baoImgRef = ref(null);
 const bao = ref(null);
 const { emoji, setEmoji } = useBaoEmoji();
 let dragTimer = ref(0); // 抓取了多久， 毫秒
@@ -49,17 +67,14 @@ watch(
   }
 );
 
-// computed(
-//   () => talk.value,
-//   (newV) => {
-//     if (newV) {
-//       talkTxt.value = newV;
-//       setTimeout(()=>{
+watch(()=> props.status, (newV)=>{
+  console.log('watch props.status', newV);
+  if(newV === "play"){
+    stopRandomEmoji();
+    setTalk("play", true);
+  }
+});
 
-//       }, 3000);
-//     }
-//   }
-// );
 
 // 每3秒取随机表情
 function randomEmoji() {
@@ -68,6 +83,10 @@ function randomEmoji() {
     setEmoji("sleep");
     randomEmoji();
   }, 3000);
+}
+
+function stopRandomEmoji(){
+  clearTimeout(defaultTimer.value);
 }
 
 function onTouchStart(e) {
@@ -92,6 +111,98 @@ function onTouchEnd() {
   }
   randomEmoji();
 }
+
+
+// ============== 玩球  ============== 
+const ballRef = ref(null);
+const isLoading = ref(false);
+
+function onPlayClose(){
+  randomEmoji();
+  emits("onPlayClose")
+}
+
+function onPlayAction(type){
+  const aniObj = {
+    x: 0
+  };
+
+  anime({
+      targets: aniObj,
+      x: type === 0 ? -3 : 3,
+      easing: 'easeInOutQuad',
+      duration: 500,
+      update: function () {
+        baoImgRef.value.style.transform = `scale(.5, .5) translateY(1rem) translateX(${aniObj.x}rem)`;
+      },
+      complete: function(anim) {
+           setTimeout(()=>{
+            baoImgRef.value.style.transform = `scale(.5, .5) translateY(1rem) translateX(0rem)`;
+           }, 1500);
+        }
+  });
+}
+
+function onBallSend(){
+    isLoading.value = true;
+    const ref = tools.getRandomInt(0,1);
+
+    // 得到左边目标点
+    const clientHeight = document.documentElement.clientHeight;
+    const ballRect = ballRef.value.getBoundingClientRect();
+    const targetBall = {
+        y: clientHeight/2 - ballRect.top
+    }
+    
+    const baoActionType = tools.getRandomInt(0,1);
+    onPlayAction(baoActionType);
+
+    // 球轨迹
+    const ballObj = {
+        x: 0,
+        y: 0,
+        scale: 1,
+    }
+
+    let x = 0;
+    if(ref === 0){
+        // 左
+        x = -1.8;
+    } else {
+        // 右
+        x = 1.8;
+    }
+
+    console.log(ref, baoActionType);
+    const isHappy = baoActionType === ref;
+    anime({
+        targets: ballObj,
+        x,
+        y: targetBall.y,
+        scale: 0.3,
+        easing: "linear",
+        duration: 600,
+        update: function () {
+            ballRef.value.style.transform = `translate(-50%, 0) scale(${ballObj.scale}, ${ballObj.scale})`;
+            ballRef.value.style.translate = `${ballObj.x}rem calc(${ballObj.y}px - 1.4rem)`;
+           
+        },
+        complete: function(anim) {
+          if(isHappy){
+            setEmoji('happy');
+          } else {
+            setEmoji('sad');
+          }
+           setTimeout(()=>{
+            ballRef.value.style.translate = "0rem 0px";
+            ballRef.value.style.transform = 'translate(-50%, 0) scale(1, 1)';
+            isLoading.value = false;
+            setEmoji('sleep');
+           }, 1500);
+        }
+    });
+}
+
 </script>
 
 <style lang="less" setup>
@@ -162,6 +273,50 @@ function onTouchEnd() {
     position: relative;
     width: 4.85rem;
     height: auto;
+    transition: all 300ms;
+    z-index: 100;
   }
 }
+
+.play{
+  .bao{
+    transform: scale(.5, .5) translateY(1rem);
+  }
+}
+
+.close{
+            position: absolute;
+            top: 1rem;
+            left: .36rem;
+            z-index: 999;
+            width: .38rem;
+            height: .38rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 300ms;
+            &.show{
+                opacity: 1;
+                pointer-events: auto;
+            }
+        }
+
+        .ball{
+            position: absolute;
+            width: 3rem;
+            height: 3rem;
+            bottom: -.5rem;
+            left: 50%;
+            transform: translate(-50%, 0);
+            z-index:100;
+        }
+
+        .door{
+            position: absolute;
+            width: 6.33rem;
+            height: auto;
+            top: 46%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            translateY: -1rem;
+        }
 </style>

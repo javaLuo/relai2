@@ -1,5 +1,5 @@
 <template>
-  <div class="root-talks-box">
+  <div :class="['root-talks-box', {show}]">
     <ul class="root-talks" ref="scrollBox">
       <li v-for="(item, index) in talkList" :key="index">
         {{ item.name }}:{{ item.txt }}
@@ -11,6 +11,10 @@
 <script setup>
 import { computed, watch, ref } from "vue";
 import { useStore } from "vuex";
+
+const props = defineProps({
+  show: Boolean,
+});
 const store = useStore();
 const scrollBox = ref(null);
 
@@ -38,9 +42,14 @@ watch(
   left: 0.58rem;
   bottom: 1.7rem;
   max-height: 4.6rem;
-  //   background: #0f0;
   overflow: hidden;
   width: 4rem;
+  opacity: 0;
+  pointer-events: none;
+  &.show{
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 .root-talks {
   width: calc(4rem + 20px);
