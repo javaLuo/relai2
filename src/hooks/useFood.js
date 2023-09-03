@@ -5,7 +5,9 @@ export default function useFood() {
     food: false,
     one: false,
     two: false,
-    three: false
+    three: false,
+    four: false,
+    five: false,
   });
   function setFood(obj) {
     console.log("foodClick.value:", foodClick.value)

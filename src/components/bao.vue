@@ -44,23 +44,48 @@
   </div>
  
 
-  <div :class="['testImg', { show: foodClick.food }]">
-      <img class="test0" src="@/assets/imgs/test.png" />
-      <img
-        :class="['test1', { show: foodClick.one }]"
-        src="@/assets/imgs/test1.png"
-        @click="onFood1"
-      />
-      <img
-        :class="['test2', { show: foodClick.two }]"
-        src="@/assets/imgs/test2.png"
-        @click="onFood2"
-      />
-      <img
-        :class="['test3', { show: foodClick.three }]"
-        src="@/assets/imgs/test3.png"
-        @click="onFood3"
-      />
+  <div :class="['boardImg', { show: foodClick.food }]">
+      <img class="img0" src="@/assets/imgs/food/0.png" />
+      <div>
+        <img class="plate1" src="@/assets/imgs/food/plate.png"/>
+        <img
+          :class="['img1', { show: foodClick.one }]"
+          src="@/assets/imgs/food/1.png"
+          @click="onFood1"
+        />
+      </div>
+      <div>
+        <img class="plate2" src="@/assets/imgs/food/plate.png"/>
+        <img
+          :class="['img2', { show: foodClick.two }]"
+          src="@/assets/imgs/food/2.png"
+          @click="onFood2"
+        />
+      </div>
+      <div>
+        <img class="plate3" src="@/assets/imgs/food/plate.png"/>
+        <img
+          :class="['img3', { show: foodClick.three }]"
+          src="@/assets/imgs/food/3.png"
+          @click="onFood3"
+        />
+      </div>
+      <div>
+        <img class="plate4" src="@/assets/imgs/food/plate.png"/>
+        <img
+          :class="['img4', { show: foodClick.four }]"
+          src="@/assets/imgs/food/4.png"
+          @click="onFood4"
+        />
+      </div>
+      <div>
+        <img class="plate5" src="@/assets/imgs/food/plate.png"/>
+        <img
+          :class="['img5', { show: foodClick.five }]"
+          src="@/assets/imgs/food/5.png"
+          @click="onFood5"
+        />
+      </div>
     </div>
 
 </template>
@@ -141,6 +166,8 @@ watch(
       one: false,
       two: false,
       three: false,
+      four: false,
+      five: false,
     });
   }
 );
@@ -296,6 +323,22 @@ function onFood3() {
   setEmoji("sad");
   store.dispatch("app/addLoves", 10);
 }
+function onFood4() {
+  setFood({
+    ...foodClick.value,
+    four: true,
+  });
+  setEmoji("sad");
+  store.dispatch("app/addLoves", 10);
+}
+function onFood5() {
+  setFood({
+    ...foodClick.value,
+    five: true,
+  });
+  setEmoji("sad");
+  store.dispatch("app/addLoves", 10);
+}
 
  // 打扫清洁
  const { cleanInfo, objsArr, clearOne, isCleanShow} = useClean();
@@ -336,7 +379,7 @@ function onFood3() {
   }
   100% {
     opacity: 1;
-    transform: translate(-50%, 90%);
+    transform: translate(-50%, 20%);
   }
 }
 @keyframes ani-food1-vertical {
@@ -345,11 +388,11 @@ function onFood3() {
   }
   90% {
     opacity: 0.8;
-    transform: translate(170%, -400%);
+    transform: translate(90%, -110%);
   }
   100% {
     opacity: 0;
-    transform: translate(180%, -410%);
+    transform: translate(100%, -130%);
   }
 }
 @keyframes ani-food2-vertical {
@@ -358,11 +401,11 @@ function onFood3() {
   }
   90% {
     opacity: 0.8;
-    transform: translate(-70%, -400%);
+    transform: translate(100%, -300%);
   }
   100% {
     opacity: 0;
-    transform: translate(-70%, -410%);
+    transform: translate(110%, -320%);
   }
 }
 
@@ -372,11 +415,39 @@ function onFood3() {
   }
   90% {
     opacity: 0.8;
-    transform: translate(-260%, -400%);
+    transform: translate(0%, -170%);
   }
   100% {
     opacity: 0;
-    transform: translate(-270%, -410%);
+    transform: translate(0%, -190%);
+  }
+}
+
+@keyframes ani-food4-vertical {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.8;
+    transform: translate(-110%, -170%);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-130%, -190%);
+  }
+}
+
+@keyframes ani-food5-vertical {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.8;
+    transform: translate(-110%, -440%);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-130%, -460%);
   }
 }
 
@@ -544,13 +615,13 @@ function onFood3() {
 
   }
 }
-.testImg {
+.boardImg {
   position: absolute;
   left: 50%;
-  top: 60%;
+  top: 50%;
   bottom: 1.2rem;
   opacity: 0;
-  width: 6rem;
+  width: 8rem;
   height: 2rem;
   z-index: 100;
   // pointer-events: none;
@@ -558,43 +629,105 @@ function onFood3() {
     opacity: 1;
     animation: ani-food-vertical 0.9s both;
   }
-  .test0 {
-    width: 6rem;
+  .img0 {
+    width: 8rem;
     height: auto;
   }
-  .test1 {
+  .img1 {
     position: absolute;
     left: 10%;
+    top: 40%;
     transform: translate(-10%, 30%);
-    width: 1rem;
-    height: 1rem;
+    width: 2rem;
+    height: auto;
     &.show {
       opacity: 0;
       animation: ani-food1-vertical 0.5s both;
     }
   }
-  .test2 {
+  .plate1{
     position: absolute;
-    left: 50%;
-    transform: translate(-50%, 30%);
-    width: 1rem;
-    height: 1rem;
+    left: 9%;
+    top: 32%;
+    transform: translate(-10%, 30%);
+    width: 2.2rem;
+    height: auto;
+  }
+  .img2 {
+    position: absolute;
+    left: 11%;
+    top: 200%;
+    transform: translate(-10%, 10%);
+    width: 1.8rem;
+    height: auto;
     &.show {
       opacity: 0;
       animation: ani-food2-vertical 0.5s both;
     }
   }
-  .test3 {
+  .plate2{
     position: absolute;
-    left: 85%;
-    transform: translate(-85%, 30%);
-    width: 1rem;
-    height: 1rem;
+    left: 9%;
+    top: 200%;
+    transform: translate(-9%, 20%);
+    width: 2.2rem;
+    height: auto;
+  }
+  .img3 {
+    position: absolute;
+    left: 38%;
+    top: 110%;
+    width: 1.8rem;
+    height: auto;
     &.show {
       opacity: 0;
       animation: ani-food3-vertical 0.5s both;
     }
   }
+  .plate3{
+    position: absolute;
+    left: 35%;
+    top: 130%;
+    width: 2.2rem;
+    height: auto;
+  }
+  .img4 {
+    position: absolute;
+    left: 67%;
+    top: 60%;
+    width: 1.8rem;
+    height: auto;
+    &.show {
+      opacity: 0;
+      animation: ani-food4-vertical 0.5s both;
+    }
+  }
+  .plate4{
+    position: absolute;
+    left: 65%;
+    top: 50%;
+    width: 2.2rem;
+    height: auto;
+  }
+  .img5 {
+    position: absolute;
+    left: 68%;
+    top: 210%;
+    width: 1.8rem;
+    height: auto;
+    &.show {
+      opacity: 0;
+      animation: ani-food5-vertical 0.5s both;
+    }
+  }
+  .plate5{
+    position: absolute;
+    left: 65%;
+    top: 200%;
+    width: 2.2rem;
+    height: auto;
+  }
+  
 }
 
 </style>
