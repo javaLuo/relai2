@@ -10,6 +10,11 @@
     <div :class="['talk', { show: talk }]">
       {{ talk }}
     </div>
+
+    <div :class="['clean-info', {show: isCleanShow}]">
+      今日打扫 {{ cleanInfo.todayNum }} / {{ cleanInfo.maxNum }}
+    </div>
+
     <img ref="baoImgRef" class="bao" :src="emoji.src" />
 
     <div class="prev">
@@ -33,7 +38,11 @@
   <img ref="ballRef" :class="['ball', {show: status === 'play' }]" src="@/assets/imgs/play/ball.png" @click="onBallSend" />
 
   <!-- 清扫逻辑 -->
-  <img class="rabish" v-for="(item,index) in objsArr" :src="item.src" :key="index" :style="{left: `${item.x}rem`, top: `${item.y}px`, width: `${item.w}rem`}" @click="onClean(index)"/>
+  <div v-for="(item,index) in objsArr" :key="item.id" :class="['rabish', {show: status === 'normal', clean: item.type === 'clean'}]" @click="onClean(item.id)"  :style="{left: `${item.x}rem`, top: `${item.y}px`}">
+    <img class="rabish-icon" :src="item.src"  :style="{width: `${item.w}rem`}" />
+    <img class="rabish-clean" src="@/assets/imgs/clean/clean.gif" />
+  </div>
+ 
 
   <div :class="['testImg', { show: foodClick.food }]">
       <img class="test0" src="@/assets/imgs/test.png" />
@@ -289,8 +298,11 @@ function onFood3() {
 }
 
  // 打扫清洁
- const { cleanInfo, objsArr} = useClean();
-    console.log('objsArr', objsArr);
+ const { cleanInfo, objsArr, clearOne, isCleanShow} = useClean();
+  
+  function onClean(index){
+    clearOne(index);
+  }
 </script>
 
 <style lang="less" setup>
@@ -407,6 +419,31 @@ function onFood3() {
       animation: ani-jello-vertical 0.9s both;
     }
   }
+
+
+.clean-info{
+  position: absolute;
+  width: 2.7rem;
+  height: .67rem;
+  background: rgba(0,0,0,.2);
+  border-radius: .67rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  line-height: .67rem;
+  font-size: .29rem;
+  font-family: Source Han Sans CN, sans-serif;
+  font-weight: 400;
+  color: #FFFFFF;
+  bottom: 6rem;
+  opacity: 0;
+  transition: opacity 300ms;
+  pointer-events: none;
+  &.show{
+    opacity: 1;
+  }
+}
+
   .bao {
     position: relative;
     width: 4.85rem;
@@ -471,9 +508,41 @@ function onFood3() {
     }
 }
 
+
 .rabish{
   position: absolute;
   height: auto;
+  z-index: 101;
+  opacity: 0;
+  pointer-events: none;
+  &.show{
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  &.clean{
+    .rabish-icon{
+      display: none;
+    }
+    .rabish-clean{
+      display: block;
+    }
+  }
+  .rabish-icon{
+    position: absolute;
+    top:0;
+    left:0;
+    transform: translate(-50%, -50%);
+  }
+  .rabish-clean{
+    display: none;
+    position: absolute;
+    top:0;
+    left:0;
+    transform: translate(-50%,-70%);
+    width: 3rem;
+
+  }
 }
 .testImg {
   position: absolute;
