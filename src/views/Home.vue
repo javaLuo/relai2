@@ -1,5 +1,5 @@
 <template>
-  <div class="root">
+  <div :class="['root', {noBack: baoStatus === 'play'}]">
     <!-- 左上角状态 -->
     <Types ref="typesBaoRes" :show="baoStatus === 'normal'"/>
 
@@ -13,6 +13,11 @@
       <div class="item" @click="onPlay">
         <img src="@/assets/imgs/icon-play.png" />
         <div>玩耍</div>
+      </div>
+
+      <div class="item">
+        <img src="@/assets/imgs/icon-zhuang.png" />
+        <div>装饰</div>
       </div>
     </div>
 
@@ -68,8 +73,13 @@ function onFoodClose(){
   box-sizing: border-box;
   padding: 0.2rem;
   background-color: #f7f7f7;
-  background-image: linear-gradient(to bottom, #fff1d0 0%, #fff9e9 50%, #d8b8a3 50%, #e2cbbb 100%);
+
+  background-image: url('@/assets/imgs/back.png');
+  background-size: cover;
   overflow: hidden;
+  &.noBack{
+    background-image: linear-gradient(to bottom, #fff1d0 0%, #fff9e9 50%, #d8b8a3 50%, #e2cbbb 100%);
+  }
 
   .control {
     position: absolute;

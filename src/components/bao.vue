@@ -36,6 +36,8 @@
     </div>
   </div>
 
+  <img :class="['hand',{show: isHandShow, play: status === 'play', food: status === 'food'}]" src="@/assets/imgs/hand.gif" />
+
   <!-- 踢球配套设施 -->
   <img
     :class="['close', { show: !isLoading && status === 'play' }]"
@@ -170,9 +172,11 @@ watch(
       stopRandomEmoji();
       setTalk("play", true);
       setEmoji('ball1');
+      isHandShow.value = true;
     } else if(newV === 'food'){
       stopRandomEmoji();
       setEmoji("food");
+      isHandShow.value = true;
     }
   }
 );
@@ -193,6 +197,7 @@ watch(
 
 // 心情标题
 const isHeartShow = ref(false);
+const isHandShow = ref(false);
 
 const prevLoad = ref(true);
 function onImgLoaded(){
@@ -244,6 +249,7 @@ function onPlayClose() {
   randomEmoji('wait');
   emits("onPlayClose")
   baoImgRef.value.style.transform = '';
+  isHandShow.value = false;
 }
 
 function onPlayAction(type) {
@@ -268,6 +274,7 @@ function onPlayAction(type) {
 }
 
 function onBallSend() {
+  isHandShow.value = false;
   if(isLoading.value) return;
   isLoading.value = true;
   const ref = tools.getRandomInt(0, 1);
@@ -341,6 +348,7 @@ function onFood1() {
   setEmoji("eat");
   eatDone();
   store.dispatch("app/addLoves", 1);
+  isHandShow.value = false;
 }
 function onFood2() {
   setFood({
@@ -350,6 +358,7 @@ function onFood2() {
   setEmoji("eat");
   eatDone();
   store.dispatch("app/addLoves", 1);
+  isHandShow.value = false;
 }
 function onFood3() {
   setFood({
@@ -359,6 +368,7 @@ function onFood3() {
   setEmoji("eat");
   eatDone();
   store.dispatch("app/addLoves", 1);
+  isHandShow.value = false;
 }
 function onFood4() {
   setFood({
@@ -368,6 +378,7 @@ function onFood4() {
   setEmoji("eat");
   eatDone();
   store.dispatch("app/addLoves", 1);
+  isHandShow.value = false;
 }
 function onFood5() {
   setFood({
@@ -377,6 +388,7 @@ function onFood5() {
   setEmoji("eat");
   eatDone();
   store.dispatch("app/addLoves", 1);
+  isHandShow.value = false;
 }
 
 const timerEat = ref(0);
@@ -394,6 +406,7 @@ function onFoodClose(){
   setEmoji("sleep");
   randomEmoji('wait');
   emits("onFoodClose");
+  isHandShow.value = false;
 }
 
  // 打扫清洁
@@ -813,4 +826,22 @@ function onFoodClose(){
   
 }
 
+.hand{
+  position: absolute;
+  z-index: 999;
+  width: 1.05rem;
+  opacity: 0;
+  pointer-events: none;
+  &.show{
+    opacity: 1;
+  }
+  &.play{
+    bottom: .2rem;
+    left: 50%;
+  }
+  &.food{
+    bottom: 2rem;
+    right: .5rem;
+  }
+}
 </style>
