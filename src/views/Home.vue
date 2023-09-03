@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <Bao :status="baoStatus" :food="foodStatus" @onPlayClose="onPlayClose"/>
+    <Bao :status="baoStatus" :food="foodStatus" @onPlayClose="onPlayClose" @onFoodClose="onFoodClose"/>
 
     <!-- 底部区域 -->
     <Talks :show="baoStatus === 'normal'" />
@@ -43,13 +43,18 @@ function onPlay(){
 
 // 结束玩耍
 function onPlayClose(){
-  console.log('结束了',);
   baoStatus.value = 'normal';
 }
 
 //投喂
 function onFood() {
-  foodStatus.value = !foodStatus.value;
+  baoStatus.value = 'food';
+  foodStatus.value = true;
+}
+
+function onFoodClose(){
+  baoStatus.value = 'normal';
+  foodStatus.value = false;
 }
 
 

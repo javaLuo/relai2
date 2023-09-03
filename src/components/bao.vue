@@ -44,6 +44,12 @@
   </div>
  
 
+    <!-- 投喂配套设施 -->
+    <img
+    :class="['close', { show: !isLoading && status === 'food' }]"
+    src="@/assets/imgs/icon-close.png"
+    @click="onFoodClose"
+  />
   <div :class="['testImg', { show: foodClick.food }]">
       <img class="test0" src="@/assets/imgs/test.png" />
       <img
@@ -125,10 +131,13 @@ watch(
 watch(
   () => props.status,
   (newV) => {
-    console.log("watch props.status", newV);
     if (newV === "play") {
       stopRandomEmoji();
       setTalk("play", true);
+      setEmoji('ball1');
+    } else if(newV === 'food'){
+      stopRandomEmoji();
+      setEmoji("food");
     }
   }
 );
@@ -186,6 +195,7 @@ const ballRef = ref(null);
 const isLoading = ref(false);
 
 function onPlayClose() {
+  setEmoji("sleep");
   randomEmoji();
   emits("onPlayClose")
   baoImgRef.value.style.transform = '';
@@ -200,7 +210,7 @@ function onPlayAction(type) {
     targets: aniObj,
     x: type === 0 ? -3 : 3,
     easing: "easeInOutQuad",
-    duration: 500,
+    duration: 700,
     update: function () {
       baoImgRef.value.style.transform = `scale(.5, .5) translateY(1rem) translateX(${aniObj.x}rem)`;
     },
@@ -244,13 +254,14 @@ function onBallSend() {
 
   console.log(ref, baoActionType);
   const isHappy = baoActionType === ref;
+  setEmoji('ball2');
   anime({
     targets: ballObj,
     x,
     y: targetBall.y,
     scale: 0.3,
     easing: "linear",
-    duration: 600,
+    duration: 800,
     update: function () {
       ballRef.value.style.transform = `translate(-50%, 0) scale(${ballObj.scale}, ${ballObj.scale})`;
       ballRef.value.style.translate = `${ballObj.x}rem calc(${ballObj.y}px - 1.4rem)`;
@@ -265,8 +276,8 @@ function onBallSend() {
         ballRef.value.style.translate = "0rem 0px";
         ballRef.value.style.transform = "translate(-50%, 0) scale(1, 1)";
         isLoading.value = false;
-        setEmoji("sleep");
-      }, 1500);
+        setEmoji("ball1");
+      }, 1800);
     },
   });
 }
@@ -277,7 +288,8 @@ function onFood1() {
     ...foodClick.value,
     one: true,
   });
-  setEmoji("sad");
+  setEmoji("eat");
+  eatDone();
   store.dispatch("app/addLoves", 10);
 }
 function onFood2() {
@@ -285,7 +297,8 @@ function onFood2() {
     ...foodClick.value,
     two: true,
   });
-  setEmoji("sad");
+  setEmoji("eat");
+  eatDone();
   store.dispatch("app/addLoves", 10);
 }
 function onFood3() {
@@ -293,8 +306,23 @@ function onFood3() {
     ...foodClick.value,
     three: true,
   });
-  setEmoji("sad");
+  setEmoji("eat");
+  eatDone();
   store.dispatch("app/addLoves", 10);
+}
+
+const timerEat = ref(0);
+function eatDone(){
+  clearTimeout(timerEat.value);
+  timerEat.value = setTimeout(()=>{
+    setEmoji("food");
+  }, 2000);
+}
+
+function onFoodClose(){
+  setEmoji("sleep");
+  randomEmoji();
+  emits("onFoodClose");
 }
 
  // 打扫清洁
