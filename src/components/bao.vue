@@ -1,7 +1,7 @@
 <template>
   <div
-    :class="['root-bao', status]"
     ref="bao"
+    :class="['root-bao', status]"
     @touchstart="onTouchStart"
     @touchmove="onTouchMove"
     @touchcancel="onTouchEnd"
@@ -25,10 +25,10 @@
   <img :class="['close', {show: !isLoading && status === 'play'}]" src="@/assets/imgs/icon-close.png" @click="onPlayClose"/>
 
   <!-- 球门 -->
-  <img v-show="status === 'play'" :class="['door']" src="@/assets/imgs/play/door.png" />
+  <img :class="['door', {show: status === 'play'}]" src="@/assets/imgs/play/door.png" />
 
   <!-- 球 -->
-  <img v-show="status === 'play'" ref="ballRef" class="ball" src="@/assets/imgs/play/ball.png" @click="onBallSend" />
+  <img ref="ballRef" :class="['ball', {show: status === 'play' }]" src="@/assets/imgs/play/ball.png" @click="onBallSend" />
 
 </template>
 
@@ -120,6 +120,7 @@ const isLoading = ref(false);
 function onPlayClose(){
   randomEmoji();
   emits("onPlayClose")
+  baoImgRef.value.style.transform = '';
 }
 
 function onPlayAction(type){
@@ -285,38 +286,51 @@ function onBallSend(){
 }
 
 .close{
-            position: absolute;
-            top: 1rem;
-            left: .36rem;
-            z-index: 999;
-            width: .38rem;
-            height: .38rem;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 300ms;
-            &.show{
-                opacity: 1;
-                pointer-events: auto;
-            }
-        }
+    position: absolute;
+    top: 1rem;
+    left: .36rem;
+    z-index: 999;
+    width: .38rem;
+    height: .38rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms;
+    &.show{
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
 
-        .ball{
-            position: absolute;
-            width: 3rem;
-            height: 3rem;
-            bottom: -.5rem;
-            left: 50%;
-            transform: translate(-50%, 0);
-            z-index:100;
-        }
+.ball{
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    bottom: -.5rem;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index:100;
+    transition: opacity 200ms;
+    pointer-events: none;
+    opacity: 0;
+    &.show{
+      opacity: 1;
+      pointer-events: auto;
+    }
+}
 
-        .door{
-            position: absolute;
-            width: 6.33rem;
-            height: auto;
-            top: 46%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            translateY: -1rem;
-        }
+.door{
+    position: absolute;
+    width: 6.33rem;
+    height: auto;
+    top: 46%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    translateY: -1rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms;
+    &.show{
+      opacity: 1;
+    }
+}
 </style>

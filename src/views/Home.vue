@@ -42,6 +42,7 @@ function onPlay(){
 
 // 结束玩耍
 function onPlayClose(){
+  console.log('结束了',);
   baoStatus.value = 'normal';
 }
 
