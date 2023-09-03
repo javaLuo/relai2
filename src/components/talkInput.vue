@@ -18,21 +18,20 @@
       <div class="submit" @click.stop="onSend" v-loading="isLoading">发送</div>
     </div>
   </div> -->
-  <div :class="['input-box', {show}]" @click.stop>
-      <div class="txt-box">
-        <pre>{{ txt }}</pre>
-        <textarea
-          id="text-area"
-          ref="txtArea"
-          :value="txt"
-          :maxlength="140"
-          @input="onInput"
-          @focus="onTxtFocus"
-        />
-      </div>
-      <div class="submit" @click.stop="onSend" v-loading="isLoading">发送</div>
+  <div :class="['input-box', { show }]" @click.stop>
+    <div class="txt-box">
+      <pre>{{ txt }}</pre>
+      <textarea
+        id="text-area"
+        ref="txtArea"
+        :value="txt"
+        :maxlength="140"
+        @input="onInput"
+        @focus="onTxtFocus"
+      />
     </div>
-
+    <div class="submit" @click.stop="onSend" v-loading="isLoading">发送</div>
+  </div>
 </template>
 
 <script setup>
@@ -40,7 +39,7 @@ import { ref } from "vue";
 import { useStore } from "vuex";
 import { ElMessage } from "element-plus";
 
-const props = defineProps({
+defineProps({
   show: Boolean,
 });
 
@@ -94,7 +93,7 @@ async function onSend() {
   z-index: 99;
   opacity: 0;
   pointer-events: none;
-  &.show{
+  &.show {
     opacity: 1;
     pointer-events: auto;
   }
@@ -104,113 +103,113 @@ async function onSend() {
   }
 }
 
-.root-talkinput {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+// .root-talkinput {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   opacity: 0;
+//   pointer-events: none;
+//   z-index: 200;
+//   &.show {
+//     opacity: 1;
+//     pointer-events: auto;
+//   }
+// }
+
+.input-box {
+  position: fixed;
   bottom: 0;
-  //   background: rgba(0, 0, 0, 0.5);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  width: 100%;
+  max-width: 7.5rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 0.2rem;
+  background: #ffffff;
+  border-radius: 0.26rem 0.26rem 0px 0px;
+
+  display: flex;
+  align-items: flex-end;
+  gap: 0.2rem;
   opacity: 0;
   pointer-events: none;
-  z-index: 200;
   &.show {
     opacity: 1;
     pointer-events: auto;
   }
 
-
-}
-
-.input-box {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 200;
-    width: 100%;
+  .txt-box {
+    position: relative;
+    flex: none;
+    background: #efefef;
     box-sizing: border-box;
-    padding: 0.2rem;
-    background: #ffffff;
-    border-radius: 0.26rem 0.26rem 0px 0px;
-
-    display: flex;
-    align-items: flex-end;
-    gap: 0.2rem;
-    opacity: 0;
-    pointer-events: none;
-    &.show{
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .txt-box {
-      position: relative;
-      flex: none;
-      background: #efefef;
-      box-sizing: border-box;
-      border-radius: 0.2rem;
+    border-radius: 0.2rem;
+    width: 5.87rem;
+    height: auto;
+    font-size: 0.28rem;
+    pre {
+      opacity: 0;
+      display: block;
       width: 5.87rem;
-      height: auto;
-      font-size: 0.28rem;
-      pre {
-        opacity: 0;
-        display: block;
-        width: 5.87rem;
-        pointer-events: none;
-        font-family: Microsoft YaHei, sans-serif;
-        font-weight: 400;
-        color: #333333;
-        font-size: 0.28rem;
-        line-height: 0.32rem;
-        padding: 0.1rem 0.2rem;
-        min-height: 0.8rem;
-        max-height: 2.4rem;
-        overflow: auto;
-        background-color: #ccc;
-        box-sizing: border-box;
-        word-wrap: break-word;
-        word-break: break-all;
-        line-break: anywhere;
-        white-space: pre-wrap;
-      }
-      textarea {
-        // opacity: 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 5.87rem;
-        height: 100%;
-        display: block;
-        font-size: 0.28rem;
-        font-family: Microsoft YaHei, sans-serif;
-        font-weight: 400;
-        color: #333333;
-        line-height: 0.32rem;
-        padding: 0.1rem 0.2rem;
-        box-sizing: border-box;
-        border: none;
-        outline: none;
-        background-color: transparent;
-        resize: none;
-        overflow: auto;
-        word-wrap: break-word;
-        word-break: break-all;
-        line-break: anywhere;
-        white-space: pre-wrap;
-      }
-    }
-    .submit {
-      flex: none;
-      width: 1.04rem;
-      height: 0.6rem;
-      background: #ffbc3b;
-      border-radius: 0.2rem;
-      font-size: 0.27rem;
-      font-family: Source Han Sans CN, sans-serif;
+      pointer-events: none;
+      font-family: Microsoft YaHei, sans-serif;
       font-weight: 400;
-      color: #ffffff;
-      text-align: center;
-      line-height: 0.6rem;
+      color: #333333;
+      font-size: 0.28rem;
+      line-height: 0.32rem;
+      padding: 0.1rem 0.2rem;
+      min-height: 0.8rem;
+      max-height: 2.4rem;
+      overflow: auto;
+      background-color: #ccc;
+      box-sizing: border-box;
+      word-wrap: break-word;
+      word-break: break-all;
+      line-break: anywhere;
+      white-space: pre-wrap;
+    }
+    textarea {
+      // opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5.87rem;
+      height: 100%;
+      display: block;
+      font-size: 0.28rem;
+      font-family: Microsoft YaHei, sans-serif;
+      font-weight: 400;
+      color: #333333;
+      line-height: 0.32rem;
+      padding: 0.1rem 0.2rem;
+      box-sizing: border-box;
+      border: none;
+      outline: none;
+      background-color: transparent;
+      resize: none;
+      overflow: auto;
+      word-wrap: break-word;
+      word-break: break-all;
+      line-break: anywhere;
+      white-space: pre-wrap;
     }
   }
+  .submit {
+    flex: none;
+    width: 1.04rem;
+    height: 0.6rem;
+    background: #ffbc3b;
+    border-radius: 0.2rem;
+    font-size: 0.27rem;
+    font-family: Source Han Sans CN, sans-serif;
+    font-weight: 400;
+    color: #ffffff;
+    text-align: center;
+    line-height: 0.6rem;
+  }
+}
 </style>
