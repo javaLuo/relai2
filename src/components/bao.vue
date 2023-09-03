@@ -269,6 +269,7 @@ function onFood1() {
     one: true,
   });
   setEmoji("sad");
+  store.dispatch("app/addLoves", 10);
 }
 function onFood2() {
   setFood({
@@ -276,6 +277,7 @@ function onFood2() {
     two: true,
   });
   setEmoji("sad");
+  store.dispatch("app/addLoves", 10);
 }
 function onFood3() {
   setFood({
@@ -283,6 +285,7 @@ function onFood3() {
     three: true,
   });
   setEmoji("sad");
+  store.dispatch("app/addLoves", 10);
 }
 
  // 打扫清洁

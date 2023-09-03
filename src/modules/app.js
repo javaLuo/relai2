@@ -8,6 +8,7 @@ const app = {
       userInfo: {},
       isLogin: false,
       talks: [], // mock, 模拟留言
+      loves:0
     };
   },
 
@@ -76,18 +77,24 @@ const app = {
     },
 
     // TODO 获取AI回复
-    async getMsg(context, params) {
-      const talks = [...context.state.talks];
-      talks.push({ name: "包晴天", txt: "好的" });
-      if (talks.length > 10) {
-        talks.shift();
-      }
-      context.commit("setState", { talks });
-      return true;
+    // async getMsg(context, params) {
+    //   const talks = [...context.state.talks];
+    //   talks.push({ name: "包晴天", txt: "好的" });
+    //   if (talks.length > 10) {
+    //     talks.shift();
+    //   }
+    //   context.commit("setState", { talks });
+    //   return true;
+    // },
 
-      // const res = await axios.get("/api/getMsg", params);
-      // return res;
-    },
+    async addLoves(context, params) {
+      const current_num = context.state.loves;
+      if(current_num < 30) {
+        const num = (current_num + params) > 30 ? 30 : (current_num + params)
+        context.commit("setState", { loves: num });
+        localStorage.setItem('hearts', num);
+      }
+    }
   },
 };
 
