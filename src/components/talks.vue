@@ -2,7 +2,7 @@
   <div :class="['root-talks-box', {show}]">
     <ul class="root-talks" ref="scrollBox">
       <li v-for="(item, index) in talkList" :key="index">
-        {{ item.name }}:{{ item.txt }}
+        {{ Object.values(item)[0] }}
       </li>
     </ul>
   </div>
@@ -19,7 +19,11 @@ const store = useStore();
 const scrollBox = ref(null);
 
 const talkList = computed(() => {
-  const t = store.state.app.talks;
+  let t = store.state.app.talks;
+  if(t.length) {
+    t = t.filter(talk => Object.keys(talk)[0] === 'user')
+    console.log('t:', t)
+  }
   //   t.reverse();
   return t;
 });
