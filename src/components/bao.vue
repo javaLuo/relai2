@@ -17,12 +17,17 @@
 
     <img ref="baoImgRef" class="bao" :src="emoji.src" />
 
-    <div class="prev">
+    <!-- 预加载图片 -->
+    <div class="prev" v-show="prevLoad">
       <img src="@/assets/imgs/bao/sleep.gif" />
       <img src="@/assets/imgs/bao/greet.gif" />
       <img src="@/assets/imgs/bao/sad.gif" />
       <img src="@/assets/imgs/bao/happy.gif" />
       <img src="@/assets/imgs/bao/nie.gif" />
+      <img src="@/assets/imgs/bao/ball1.gif" />
+      <img src="@/assets/imgs/bao/ball2.gif" />
+      <img src="@/assets/imgs/bao/eat.gif" />
+      <img src="@/assets/imgs/bao/food.gif" @load="onImgLoaded"/>
     </div>
   </div>
 
@@ -153,6 +158,11 @@ watch(
     });
   }
 );
+
+const prevLoad = ref(true);
+function onImgLoaded(){
+  prevLoad.value = false;
+}
 
 // 每3秒取随机表情
 function randomEmoji() {
