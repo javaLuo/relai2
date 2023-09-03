@@ -44,7 +44,7 @@ const app = {
         talks.shift();
       }
       context.commit("setState", { talks });
-      context.dispatch("getMsg");
+      // context.dispatch("getMsg");
       return true;
 
       // try {

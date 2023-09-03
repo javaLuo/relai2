@@ -1,17 +1,16 @@
 <template>
-  <div class="root-bao">
-    <div v-show="!baoDrag.isDraging.value" class="talk">
-      怎么了？我一直在这陪着你
+  <div
+    class="root-bao"
+    ref="bao"
+    @touchstart="onTouchStart"
+    @touchmove="onTouchMove"
+    @touchcancel="onTouchEnd"
+    @touchend="onTouchEnd"
+  >
+    <div :class="['talk', { show: talk }]">
+      {{ talk }}
     </div>
-    <img
-      ref="bao"
-      class="bao"
-      :src="emoji"
-      @touchstart="onTouchStart"
-      @touchmove="onTouchMove"
-      @touchcancel="onTouchEnd"
-      @touchend="onTouchEnd"
-    />
+    <img class="bao" :src="emoji.src" />
 
     <div class="prev">
       <img src="@/assets/imgs/bao/sleep.gif" />
@@ -24,9 +23,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import useBaoEmoji from "@/hooks/useBaoEmoji";
 import useDrag from "@/hooks/useDrag";
+import useBaoTalk from "@/hooks/useBaoTalk";
 
 const bao = ref(null);
 const { emoji, setEmoji } = useBaoEmoji();
@@ -34,11 +34,32 @@ let dragTimer = ref(0); // 抓取了多久， 毫秒
 let defaultTimer = ref(0);
 
 const baoDrag = useDrag(bao);
-console.log("isDraging", baoDrag.isDraging.value);
+const { talk, setTalk } = useBaoTalk();
 
 onMounted(() => {
   randomEmoji();
 });
+
+watch(
+  () => emoji.value,
+  (newV) => {
+    if (newV.type === "nie") {
+      setTalk("nie");
+    }
+  }
+);
+
+// computed(
+//   () => talk.value,
+//   (newV) => {
+//     if (newV) {
+//       talkTxt.value = newV;
+//       setTimeout(()=>{
+
+//       }, 3000);
+//     }
+//   }
+// );
 
 // 每3秒取随机表情
 function randomEmoji() {
@@ -74,6 +95,30 @@ function onTouchEnd() {
 </script>
 
 <style lang="less" setup>
+@keyframes ani-jello-vertical {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    transform: scale3d(0.75, 1.25, 1);
+  }
+  40% {
+    transform: scale3d(1.25, 0.75, 1);
+  }
+  50% {
+    transform: scale3d(0.85, 1.15, 1);
+  }
+  65% {
+    transform: scale3d(1.05, 0.95, 1);
+  }
+  75% {
+    transform: scale3d(0.95, 1.05, 1);
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
 .root-bao {
   position: absolute;
   top: 46%;
@@ -91,10 +136,9 @@ function onTouchEnd() {
   .talk {
     position: absolute;
     left: 50%;
-
-    transform: translateX(-50%) translateY(-0.1rem);
-    width: 4rem;
-    max-height: 3rem;
+    bottom: 5.2rem;
+    translate: -50% -0.1rem;
+    width: 4.5rem;
     border: 3px solid #ffffff;
     background-color: rgba(255, 255, 255, 0.6);
     border-radius: 0.15rem;
@@ -106,6 +150,13 @@ function onTouchEnd() {
     text-align: center;
     word-break: break-all;
     line-break: anywhere;
+
+    opacity: 0;
+    pointer-events: none;
+    &.show {
+      opacity: 1;
+      animation: ani-jello-vertical 0.9s both;
+    }
   }
   .bao {
     position: relative;

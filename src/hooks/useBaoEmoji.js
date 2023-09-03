@@ -16,7 +16,7 @@ export default function useBaoEmoji() {
 
   const type = ref("sleep");
   const emoji = computed(() => {
-    return emojis[type.value];
+    return { type: type.value, src: emojis[type.value] };
   });
 
   function setEmoji(t) {
