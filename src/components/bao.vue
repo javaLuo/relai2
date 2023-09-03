@@ -246,6 +246,7 @@ const ballRef = ref(null);
 const isLoading = ref(false);
 
 function onPlayClose() {
+  setEmoji('wait');
   randomEmoji('wait');
   emits("onPlayClose")
   baoImgRef.value.style.transform = '';
@@ -403,6 +404,7 @@ function eatDone(){
 
 function onFoodClose(){
   clearTimeout(timerEat.value);
+  setEmoji('wait');
   randomEmoji('wait');
   emits("onFoodClose");
   isHandShow.value = false;
