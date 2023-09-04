@@ -570,7 +570,14 @@ function onClean(index) {
   top: 46%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 99;
+  z-index: 200;
+
+  &.play {
+    pointer-events: none;
+  }
+  &.food {
+    pointer-events: none;
+  }
   .prev {
     width: 1px;
     height: 1px;
@@ -585,7 +592,6 @@ function onClean(index) {
     bottom: 5.2rem;
     translate: -50% -0.1rem;
     width: 3.5rem;
-    // max-width: 6rem;
     border: 3px solid #ffffff;
     background-color: rgba(255, 255, 255, 0.6);
     border-radius: 0.15rem;
@@ -699,7 +705,7 @@ function onClean(index) {
   bottom: -0.5rem;
   left: 50%;
   transform: translate(-50%, 0);
-  z-index: 100;
+  z-index: 201;
   transition: opacity 200ms;
   pointer-events: none;
   opacity: 0;
@@ -768,7 +774,7 @@ function onClean(index) {
   opacity: 0;
   width: 8rem;
   height: 2rem;
-  z-index: 100;
+  z-index: 202;
   pointer-events: none;
   .hand {
     right: 0.2rem;
@@ -793,6 +799,7 @@ function onClean(index) {
     &.show {
       opacity: 0;
       animation: ani-food1-vertical 0.5s both;
+      pointer-events: none;
     }
   }
   .plate1 {
@@ -813,6 +820,7 @@ function onClean(index) {
     &.show {
       opacity: 0;
       animation: ani-food2-vertical 0.5s both;
+      pointer-events: none;
     }
   }
   .plate2 {
@@ -832,6 +840,7 @@ function onClean(index) {
     &.show {
       opacity: 0;
       animation: ani-food3-vertical 0.5s both;
+      pointer-events: none;
     }
   }
   .plate3 {
@@ -850,6 +859,7 @@ function onClean(index) {
     &.show {
       opacity: 0;
       animation: ani-food4-vertical 0.5s both;
+      pointer-events: none;
     }
   }
   .plate4 {
@@ -868,6 +878,7 @@ function onClean(index) {
     &.show {
       opacity: 0;
       animation: ani-food5-vertical 0.5s both;
+      pointer-events: none;
     }
   }
   .plate5 {

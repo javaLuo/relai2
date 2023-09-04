@@ -86,7 +86,7 @@ watch(
     line-break: anywhere;
     &.user {
       align-self: flex-end;
-      margin-right: 0.2rem;
+      margin-right: 21px;
     }
   }
 }
