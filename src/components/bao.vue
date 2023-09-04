@@ -1,9 +1,9 @@
 <template>
   <div
     ref="bao"
-    :class="['root-bao', status]"
-    @touchstart="onTouchStart"
-    @touchmove="onTouchMove"
+    :class="['root-bao', status, { draging: baoDrag.isDraging.value }]"
+    @touchstart.stop="onTouchStart"
+    @touchmove.stop.passive="onTouchMove"
     @touchcancel="onTouchEnd"
     @touchend="onTouchEnd"
   >
@@ -570,8 +570,10 @@ function onClean(index) {
   top: 46%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 200;
-
+  z-index: 180;
+  &.draging {
+    z-index: 999;
+  }
   &.play {
     pointer-events: none;
   }
@@ -734,7 +736,7 @@ function onClean(index) {
 .rabish {
   position: absolute;
   height: auto;
-  z-index: 101;
+  z-index: 200;
   opacity: 0;
   pointer-events: none;
   &.show {
