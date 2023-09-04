@@ -7,8 +7,8 @@ const app = {
     return {
       userInfo: {},
       isLogin: false,
-      talks: [], // mock, 模拟留言
-      loves:0
+      talks: [], // 所有对话
+      loves: 0,
     };
   },
 
@@ -41,23 +41,21 @@ const app = {
       const historyChat = [...context.state.talks];
       const question = params.txt;
       try {
-        if(historyChat.length > 10) {
+        if (historyChat.length > 10) {
           historyChat.shift();
         }
-        const res = await axios.post("/rest-api/relped/chat", {historyChat: JSON.stringify(historyChat), question});
+        const res = await axios.post("/rest-api/relped/chat", { historyChat: JSON.stringify(historyChat), question });
         historyChat.push({
-          user: question
-        })
+          user: question,
+        });
         historyChat.push({
-          system: res.detail
-        })
+          system: res.detail,
+        });
         context.commit("setState", { talks: historyChat });
         return true;
       } catch {
         return { code: 500 };
       }
-
-
 
       // const talks = [...context.state.talks];
       // talks.push({ name: "user", txt: params.txt });
@@ -89,12 +87,12 @@ const app = {
 
     async addLoves(context, params) {
       const current_num = context.state.loves;
-      if(current_num < 30) {
-        const num = (current_num + params) > 30 ? 30 : (current_num + params)
+      if (current_num < 30) {
+        const num = current_num + params > 30 ? 30 : current_num + params;
         context.commit("setState", { loves: num });
-        localStorage.setItem('hearts', num);
+        localStorage.setItem("hearts", num);
       }
-    }
+    },
   },
 };
 

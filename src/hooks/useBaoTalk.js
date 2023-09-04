@@ -1,12 +1,13 @@
 import { ref, onMounted, onUnmounted } from "vue";
-import tools from "@/utils/tools.js";
+// import tools from "@/utils/tools.js";
 
 const insideTalks = {
-  sleep: 'Zzzzzzz...',
+  sleep: "Zzzzzzz...",
   hi: "Hi, 我是包晴天",
-  what: '发生什么事了，能与我分享吗？',
+  what: "发生什么事了，能与我分享吗？",
   nie: "救命~别捏了！！要坏了~",
-  play: "点击玩具球，和我一起玩儿吧！"
+  play: "点击玩具球，和我一起玩儿吧！",
+  food: "看起来都很美味呀",
 };
 export default function useBaoTalk() {
   const clickTimes = ref(0); // 第几次点击bao
@@ -22,27 +23,26 @@ export default function useBaoTalk() {
   });
 
   function setTalk(type, msg) {
-
-    if(type === 'hi'){
-      if(clickTimes.value === 0){
+    if (type === "hi") {
+      if (clickTimes.value === 0) {
         clickTimes.value += 1;
         talk.value = insideTalks.hi;
         clearTimeout(timer.value);
-        timer.value = setTimeout(()=>{
-          talk.value = insideTalks.what;
+        timer.value = setTimeout(() => {
+          setTalk("what");
         }, 3000);
       }
       return;
     }
 
     clearTimeout(timer.value);
-    if(msg) {
-      talk.value = msg
+    if (msg) {
+      talk.value = msg;
     } else {
       talk.value = insideTalks[type];
     }
 
-    timer.value = setTimeout(()=>{
+    timer.value = setTimeout(() => {
       talk.value = "";
     }, 3000);
   }

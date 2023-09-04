@@ -158,7 +158,7 @@ import useClean from "@/hooks/useClean";
 import useFood from "@/hooks/useFood";
 import { useStore } from "vuex";
 
-const emits = defineEmits(["onPlayClose"]);
+const emits = defineEmits(["onPlayClose", "onFoodClose"]);
 const props = defineProps({
   status: String,
   food: Boolean,
@@ -214,6 +214,7 @@ watch(
       isHandShow.value = true;
     } else if (newV === "food") {
       stopRandomEmoji();
+      setTalk("food");
       setEmoji("food");
       isHandShow.value = true;
     }
@@ -258,7 +259,7 @@ function stopRandomEmoji() {
 
 function onTouchStart(e) {
   setEmoji("greet");
-  setTalk('hi');
+  setTalk("hi");
   baoDrag.onTouchStart(e);
   dragTimer.value = Date.now();
   clearTimeout(defaultTimer.value);
@@ -287,9 +288,11 @@ const isLoading = ref(false);
 function onPlayClose() {
   setEmoji("wait");
   randomEmoji("wait");
+  setTalk("");
   emits("onPlayClose");
   baoImgRef.value.style.transform = "";
   isHandShow.value = false;
+  isHeartShow.value = false;
 }
 
 function onPlayAction(type) {
@@ -322,11 +325,13 @@ function onBallSend() {
   // 得到左边目标点
   const clientHeight = document.documentElement.clientHeight;
   const ballRect = ballRef.value.getBoundingClientRect();
+  const baoActionType = tools.getRandomInt(0, 1);
+  const isHappy = baoActionType === ref;
+  // console.log("ballRect", ballRect);
   const targetBall = {
-    y: clientHeight / 2 - ballRect.top,
+    y: clientHeight / 2 - ballRect.top - (isHappy ? 0 : tools.rem2px(0.4)),
   };
 
-  const baoActionType = tools.getRandomInt(0, 1);
   onPlayAction(baoActionType);
 
   // 球轨迹
@@ -346,7 +351,6 @@ function onBallSend() {
     x = 1.8;
   }
 
-  const isHappy = baoActionType === ref;
   setEmoji("ball2");
   anime({
     targets: ballObj,
@@ -358,7 +362,7 @@ function onBallSend() {
     duration: 800,
     update: function () {
       ballRef.value.style.transform = `translate(-50%, 0) scale(${ballObj.scale}, ${ballObj.scale}) rotate(${ballObj.rotate}deg)`;
-      ballRef.value.style.translate = `${ballObj.x}rem calc(${ballObj.y}px - 1.4rem)`;
+      ballRef.value.style.translate = `${ballObj.x}rem calc(${ballObj.y}px - 1.1rem)`;
     },
     complete: function () {
       if (isHappy) {
@@ -445,8 +449,10 @@ function onFoodClose() {
   clearTimeout(timerEat.value);
   setEmoji("wait");
   randomEmoji("wait");
+  setTalk("");
   emits("onFoodClose");
   isHandShow.value = false;
+  isHeartShow.value = false;
 }
 
 // 打扫清洁
@@ -578,7 +584,8 @@ function onClean(index) {
     left: 50%;
     bottom: 5.2rem;
     translate: -50% -0.1rem;
-    width: 4.5rem;
+    width: 3.5rem;
+    // max-width: 6rem;
     border: 3px solid #ffffff;
     background-color: rgba(255, 255, 255, 0.6);
     border-radius: 0.15rem;
@@ -588,7 +595,7 @@ function onClean(index) {
     color: #333333;
     line-height: 0.58rem;
     text-align: center;
-    word-break: break-all;
+    word-break: keep-all;
     line-break: anywhere;
 
     opacity: 0;
@@ -613,7 +620,7 @@ function onClean(index) {
     font-family: Source Han Sans CN, sans-serif;
     font-weight: 400;
     color: #ffffff;
-    bottom: 6rem;
+    bottom: 7rem;
     opacity: 0;
     transition: opacity 300ms;
     pointer-events: none;
@@ -660,6 +667,12 @@ function onClean(index) {
 .play {
   .bao {
     transform: scale(0.5, 0.5) translateY(1rem);
+  }
+}
+
+.food {
+  .bao {
+    transform: scale(0.8, 0.8) translateY(0.5rem);
   }
 }
 
@@ -764,7 +777,7 @@ function onClean(index) {
   &.show {
     opacity: 1;
     pointer-events: auto;
-    animation: ani-food-vertical 0.9s both;
+    animation: ani-food-vertical 0.6s both;
   }
   .img0 {
     width: 8rem;

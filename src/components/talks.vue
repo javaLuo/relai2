@@ -1,9 +1,12 @@
 <template>
   <div :class="['root-talks-box', { show }]">
     <ul class="root-talks" ref="scrollBox">
-      <li v-for="(item, index) in talkList" :key="index">
-        {{ Object.keys(item)[0] === "user" ? "我：" : "包晴天："
-        }}{{ Object.values(item)[0] }}
+      <li
+        v-for="(item, index) in talkList"
+        :key="index"
+        :class="{ user: Object.keys(item)[0] === 'user' }"
+      >
+        {{ Object.values(item)[0] }}
       </li>
     </ul>
   </div>
@@ -32,11 +35,8 @@ const talkList = computed(() => {
 watch(
   () => talkList.value,
   () => {
-    // const currentScroll = scrollBox.value.scrollTop; // 已经被卷掉的高度
-    // const clientHeight = scrollBox.value.offsetHeight; // 容器高度
     setTimeout(() => {
       const scrollHeight = scrollBox.value.scrollHeight; // 内容总高度
-      // console.log("scroll:", currentScroll, clientHeight, scrollHeight);
       scrollBox.value.scrollTo(0, scrollHeight);
     }, 32);
   }
@@ -47,10 +47,10 @@ watch(
 .root-talks-box {
   position: absolute;
   left: 0.58rem;
-  bottom: 1.7rem;
-  max-height: 4.6rem;
+  bottom: 1.4rem;
+  max-height: 4rem;
   overflow: hidden;
-  width: 4rem;
+  width: 6.34rem;
   opacity: 0;
   pointer-events: none;
   &.show {
@@ -59,16 +59,15 @@ watch(
   }
 }
 .root-talks {
-  width: calc(4rem + 20px);
+  width: calc(6.34rem + 20px);
   padding: 0;
   position: relative;
   margin: 0;
   list-style: none;
   overflow-x: clip;
   overflow-y: auto;
-  max-height: 4.6rem;
+  max-height: 4rem;
   z-index: 100;
-  //   background: #f00;
   scroll-behavior: smooth;
   display: flex;
   flex-direction: column;
@@ -77,7 +76,7 @@ watch(
   & > li {
     box-sizing: border-box;
     padding: 0.2rem;
-    max-width: 3.4rem;
+    max-width: 4.2rem;
     background: rgba(0, 0, 0, 0.1);
     border-radius: 0.1rem;
     font-size: 0.25rem;
@@ -85,6 +84,10 @@ watch(
     font-weight: 400;
     color: #ffffff;
     line-break: anywhere;
+    &.user {
+      align-self: flex-end;
+      margin-right: 0.2rem;
+    }
   }
 }
 </style>

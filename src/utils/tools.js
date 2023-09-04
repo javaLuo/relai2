@@ -92,7 +92,11 @@ const tools = {
   // 获取范围随机数，整数
   getRandom(min, max) {
     return Math.random() * (max - min) + min;
-  }
+  },
+
+  rem2px(rem) {
+    return (document.documentElement.clientWidth / 750) * rem * 100;
+  },
 };
 
 export default tools;

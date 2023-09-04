@@ -1,10 +1,10 @@
 <template>
-  <div :class="['root', {noBack: baoStatus === 'play'}]">
+  <div :class="['root', { noBack: baoStatus === 'play' }]">
     <!-- 左上角状态 -->
-    <Types ref="typesBaoRes" :show="baoStatus === 'normal'"/>
+    <Types ref="typesBaoRes" :show="baoStatus === 'normal'" />
 
     <!-- 右边按钮 -->
-    <div :class="['control', {show: baoStatus === 'normal'}]">
+    <div :class="['control', { show: baoStatus === 'normal' }]">
       <div class="item" @click="onFood">
         <img src="@/assets/imgs/icon-touwei.png" />
         <div>投喂</div>
@@ -21,48 +21,50 @@
       </div>
     </div>
 
-    <Bao :status="baoStatus" :food="foodStatus" @onPlayClose="onPlayClose" @onFoodClose="onFoodClose"/>
+    <Bao
+      :status="baoStatus"
+      :food="foodStatus"
+      @onPlayClose="onPlayClose"
+      @onFoodClose="onFoodClose"
+    />
 
     <!-- 底部区域 -->
     <Talks :show="baoStatus === 'normal'" />
     <TalkInput :show="baoStatus === 'normal'" />
-    
   </div>
 </template>
 
 <script setup>
-import {ref} from 'vue';
+import { ref } from "vue";
 import Bao from "@/components/bao.vue";
 import Talks from "@/components/talks.vue";
 import TalkInput from "@/components/talkInput.vue";
 import Types from "@/components/types.vue";
 
-const baoStatus = ref('normal');
+const baoStatus = ref("normal");
 const typesBaoRes = ref(null);
 const foodStatus = ref(null);
 
 // 进入玩耍状态
-function onPlay(){
-  baoStatus.value = 'play';
+function onPlay() {
+  baoStatus.value = "play";
 }
 
 // 结束玩耍
-function onPlayClose(){
-  baoStatus.value = 'normal';
+function onPlayClose() {
+  baoStatus.value = "normal";
 }
 
 //投喂
 function onFood() {
-  baoStatus.value = 'food';
+  baoStatus.value = "food";
   foodStatus.value = true;
 }
 
-function onFoodClose(){
-  baoStatus.value = 'normal';
+function onFoodClose() {
+  baoStatus.value = "normal";
   foodStatus.value = false;
 }
-
-
 </script>
 
 <style lang="less" scoped>
@@ -74,12 +76,18 @@ function onFoodClose(){
   padding: 0.2rem;
   background-color: #f7f7f7;
 
-  background-image: url('@/assets/imgs/back.png');
+  background-image: url("@/assets/imgs/back.webp");
   background-size: cover;
   background-position: center;
   overflow: hidden;
-  &.noBack{
-    background-image: linear-gradient(to bottom, #fff1d0 0%, #fff9e9 50%, #d8b8a3 50%, #e2cbbb 100%);
+  &.noBack {
+    background-image: linear-gradient(
+      to bottom,
+      #fff1d0 0%,
+      #fff9e9 50%,
+      #d8b8a3 50%,
+      #e2cbbb 100%
+    );
   }
 
   .control {
@@ -89,10 +97,10 @@ function onFoodClose(){
     z-index: 99;
     display: flex;
     flex-direction: column;
-    gap: 0.18rem;
     opacity: 0;
     pointer-events: none;
-    &.show{
+    gap: 0.22rem;
+    &.show {
       opacity: 1;
       pointer-events: auto;
     }
@@ -100,6 +108,7 @@ function onFoodClose(){
       position: relative;
       width: 1.12rem;
       height: 1.12rem;
+
       img {
         width: 100%;
         height: 100%;
