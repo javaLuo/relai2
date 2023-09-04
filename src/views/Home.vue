@@ -69,8 +69,9 @@ function onFoodClose() {
 
 <style lang="less" scoped>
 .root {
-  position: relative;
+  position: fixed;
   width: 100%;
+  max-width: 7.5rem;
   height: 100vh;
   box-sizing: border-box;
   padding: 0.2rem;

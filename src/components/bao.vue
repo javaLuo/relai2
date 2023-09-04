@@ -3,7 +3,7 @@
     ref="bao"
     :class="['root-bao', status, { draging: baoDrag.isDraging.value }]"
     @touchstart.stop="onTouchStart"
-    @touchmove.stop.passive="onTouchMove"
+    @touchmove.stop="onTouchMove"
     @touchcancel="onTouchEnd"
     @touchend="onTouchEnd"
   >
