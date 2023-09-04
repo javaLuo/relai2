@@ -191,7 +191,7 @@ watch(
   () => talkList.value,
   () => {
     const msg = talkList.value[talkList.value.length - 1];
-    setTalk("", true, msg.system);
+    setTalk("", msg.system);
   }
 );
 
@@ -209,7 +209,7 @@ watch(
   (newV) => {
     if (newV === "play") {
       stopRandomEmoji();
-      setTalk("play", true);
+      setTalk("play");
       setEmoji("ball1");
       isHandShow.value = true;
     } else if (newV === "food") {
@@ -258,6 +258,7 @@ function stopRandomEmoji() {
 
 function onTouchStart(e) {
   setEmoji("greet");
+  setTalk('hi');
   baoDrag.onTouchStart(e);
   dragTimer.value = Date.now();
   clearTimeout(defaultTimer.value);
