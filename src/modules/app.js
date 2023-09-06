@@ -92,6 +92,7 @@ const app = {
         context.commit("setState", { loves: num });
         localStorage.setItem("hearts", num);
       }
+      localStorage.setItem("heartsTime", Date.now());
     },
   },
 };

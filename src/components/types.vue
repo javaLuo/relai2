@@ -1,8 +1,7 @@
 <template>
-  <div :class="['type-box', { show: show }]">
-    <div class="title">心情值</div>
+  <div :class="['type-box', { right: baoStatus !== 'normal' }]">
     <div class="heart-box">
-      <div class="heart"><img src="@/assets/imgs/icon-heart.png" /></div>
+      <img class="heart" src="@/assets/imgs/icon-heart2.png" />
       <div class="line-box">
         <div
           class="line"
@@ -20,14 +19,18 @@ import { useStore } from "vuex";
 
 const store = useStore();
 defineProps({
-  show: Boolean,
+  baoStatus: String,
 });
 const heartMax = 30;
 const heartNum = ref(0);
 
 onMounted(() => {
-  const hearts = localStorage.getItem("hearts");
-  heartNum.value = Number(hearts) || 0;
+  const hearts = Number(localStorage.getItem("hearts")) || 0;
+  const heartsTime = Number(localStorage.getItem("heartsTime")) || 0;
+
+  const hours = Math.floor(((Date.now() - heartsTime) / 1000) * 60 * 60); // 过去了多少个小时
+  heartNum.value = Math.max(hearts - hours, 0);
+
   store.dispatch("app/addLoves", heartNum.value);
 });
 
@@ -36,7 +39,7 @@ const loves = computed(() => store.state.app.loves);
 watch(
   () => loves.value,
   () => {
-    setHeartNum(loves.value)
+    setHeartNum(loves.value);
   }
 );
 
@@ -59,20 +62,14 @@ defineExpose({
   display: flex;
   align-items: center;
   pointer-events: none;
-  opacity: 0;
-  &.show {
-    opacity: 1;
+  &.right {
+    left: auto;
+    right: 0.2rem;
   }
+
   .title {
-    font-size: 0.23rem;
-    font-family: Source Han Sans CN, sans-serif;
-    font-weight: 400;
-    color: #ffffff;
-    text-shadow: #bd673b 1px 0 0, #bd673b 0 1px 0, #bd673b -1px 0 0,
-      #bd673b 0 -1px 0;
-    // -webkit-text-stroke: 1px #BD673B;
-    // text-stroke: 1px #BD673B;
-    margin-right: 0.1rem;
+    width: 0.7rem;
+    height: auto;
   }
 
   .heart-box {
@@ -81,50 +78,43 @@ defineExpose({
     .heart {
       position: relative;
       z-index: 2;
-      width: 0.44rem;
-      height: 0.44rem;
-      background: #fff3e5;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: solid 1px #dd9e7d;
-      img {
-        width: 0.32rem;
-      }
+      width: 0.7rem;
     }
     .line-box {
       position: relative;
-      height: 0.33rem;
-      width: 2.5rem;
-      background: #fff3e5;
-      border-radius: 0.3rem;
-      border: solid 1px #ffbc3b;
+      height: 0.38rem;
+      width: 2.8rem;
+      background: #fff;
+      border-radius: 0 0.3rem 0.3rem 0;
+      border: solid 1px #66443d;
       margin-left: -0.2rem;
       overflow: hidden;
 
-      // -webkit-text-stroke: 1px #47332F;
-      // text-stroke: 1px #47332F;
       color: #fff;
       .words {
         position: absolute;
         top: 50%;
-        transform: translateY(-50%) scale(0.9, 0.9);
-        left: 0.2rem;
-        font-size: 0.2rem;
+        transform: translate(-50%, -50%) scale(0.9, 0.9);
+        left: 50%;
+        font-size: 0.28rem;
         font-family: PingFang SC, sans-serif;
         font-weight: 400;
         color: #ffffff;
-        text-shadow: #47332f 1px 0 0, #47332f 0 1px 0, #47332f -1px 0 0,
-          #47332f 0 -1px 0;
+        text-shadow: #65433d 1px 0 0, #65433d 0 1px 0, #65433d -1px 0 0,
+          #65433d 0 -1px 0;
       }
 
       .line {
-        background-color: #ffbc3b;
         padding-left: 0.1rem;
         width: 10%;
-        height: 100%;
+        height: 0.32rem;
         box-sizing: border-box;
+        background: #ff725f;
+        font-family: Kingnam Bobo, sans-serif;
+        box-shadow: 0px -1px 2px 0px rgba(0, 0, 0, 0.25),
+          0px 1px 2px 0px rgba(255, 255, 255, 0.25);
+        border-radius: 0 0.3rem 0.3rem 0;
+        margin-top: 0.015rem;
       }
     }
   }

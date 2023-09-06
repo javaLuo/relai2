@@ -1,13 +1,13 @@
 <template>
   <div :class="['root', { noBack: baoStatus === 'play' }]">
     <!-- 左上角状态 -->
-    <Types ref="typesBaoRes" :show="baoStatus === 'normal'" />
+    <Types ref="typesBaoRes" :baoStatus="baoStatus" />
 
     <!-- 右边按钮 -->
     <div :class="['control', { show: baoStatus === 'normal' }]">
       <div class="item" @click="onFood">
         <img src="@/assets/imgs/icon-touwei.png" />
-        <div>投喂</div>
+        <div>投喂{{ baoStatus }}</div>
       </div>
 
       <div class="item" @click="onPlay">

@@ -6,7 +6,7 @@ const insideTalks = {
   hi: "Hi, 我是包晴天",
   what: "发生什么事了，能与我分享吗？",
   nie: "救命~别捏了！！要坏了~",
-  play: "点击玩具球，和我一起玩儿吧！",
+  play: "点击足球，和我一起玩儿吧",
   food: "看起来都很美味呀",
 };
 export default function useBaoTalk() {
